@@ -1,0 +1,37 @@
+# .NET build outputs (Console, ASP.NET Core Web API, tests)
+[Bb]in/
+[Oo]bj/
+artifacts/
+publish/
+
+# IDE and user-specific files
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.rsuser
+*.userprefs
+*.sln.docstates
+
+# Test and coverage results
+TestResults/
+coverage/
+coverage-results/
+*.trx
+*.coverage
+*.coveragexml
+
+# Local logs and runtime files
+logs/
+*.log
+*.pid
+*.pid.lock
+
+# Local configuration and secrets; keep shared appsettings.json trackable
+.env
+.env.*
+!.env.example
+!.env.sample
+appsettings.Local.json
+appsettings.*.local.json
