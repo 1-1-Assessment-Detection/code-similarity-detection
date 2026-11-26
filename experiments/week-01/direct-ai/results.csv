@@ -1,0 +1,1 @@
+pair_id,submission_a,submission_b,ai_verdict,ai_similarity,response_file,ground_truth,level,outcome,latency_seconds,input_tokens,output_tokens,notes
