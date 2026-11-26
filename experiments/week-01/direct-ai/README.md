@@ -2,7 +2,7 @@
 
 Thư mục này phục vụ issue #4. Kết quả sẽ được chuyển sang #5 để tổng hợp bảng phân tích lỗi.
 
-> **Trạng thái:** Chương trình đã sẵn sàng nhưng chưa chạy được thật vì tài khoản OpenRouter hết lượt miễn phí trong ngày. Kết quả và ngày chạy sẽ cập nhật sau.
+> **Trạng thái:** Đã chạy đủ 45/45 cặp ngày 2026-11-27. Kết quả ở [`results.csv`](results.csv) và thư mục [`responses/`](responses/), nhận xét ở cuối file.
 
 ## Thực nghiệm này làm gì
 
@@ -21,11 +21,15 @@ Nhóm muốn biết nếu chỉ đưa thẳng hai bài cho AI rồi hỏi "có c
 | Mục | Giá trị |
 | --- | --- |
 | Nơi gọi AI | OpenRouter (Chat Completions) |
-| Model | `google/gemma-4-31b-it:free` |
+| Model | `nvidia/nemotron-3-ultra-550b-a55b:free` |
 | Temperature | Để mặc định, nên chạy lại có thể ra kết quả hơi khác |
 | Prompt | `v1` |
 | Dữ liệu | `datasets/week-01/`, commit `8f2e750` |
-| Ngày chạy | Chưa chạy |
+| Ngày chạy | 2026-11-27 |
+
+Lúc đầu nhóm định dùng `google/gemma-4-31b-it:free`, nhưng model này bị quá tải (HTTP 429) ngay từ cặp đầu tiên nên chưa có cặp nào chạy xong. Vì vậy nhóm đổi sang nemotron và chạy cả 45 cặp bằng một model duy nhất.
+
+Model AI chính thức của sản phẩm chưa chốt; DeepSeek đang là lựa chọn dự kiến. Khi nhóm chốt, cần chạy lại `v1` bằng đúng model đó. Có như vậy thì kết quả so sánh Phương án B với Phương án C (`v2`, `v3`) ở tuần 7–8 mới công bằng.
 
 Khóa API và tên model đặt trong file `.env.local` ở thư mục gốc repo, xem mẫu ở [`.env.example`](../../../.env.example). File này đã nằm trong `.gitignore`, đừng commit khóa lên.
 
@@ -70,9 +74,26 @@ Lệnh còn nhận thêm `--submissions`, `--ground-truth`, `--prompt`, `--out` 
 
 ## Nhận xét
 
-Sẽ viết sau khi có kết quả: AI bắt được bao nhiêu cặp ở mỗi mức, báo nhầm bao nhiêu, mất bao lâu, tốn bao nhiêu token, và AI hay sai kiểu gì.
+**AI kết luận đúng cả 45 cặp.** AI bắt được đủ 5 cặp chép và không báo nhầm cặp nào trong 40 cặp không chép. Cả 45 câu trả lời đều đúng định dạng, không cặp nào phải hỏi lại.
 
-Lưu ý khi đọc kết quả: mỗi mức chỉ có 1 hoặc 2 cặp, nên tỷ lệ theo mức chỉ mang tính tham khảo.
+| Mức | Cặp | AI kết luận | Điểm AI chấm |
+| --- | --- | --- | --- |
+| 1: đổi khoảng trắng | `copy-01` / `solution-01` | copy ✅ | 99 |
+| 2: đổi tên biến | `copy-02` / `solution-02` | copy ✅ | 95 |
+| 3: đổi vòng lặp | `copy-03` / `solution-03` | copy ✅ | 90 |
+| 3: đổi vòng lặp | `copy-04` / `solution-04` | copy ✅ | 95 |
+| 4: AI viết lại | `copy-05` / `solution-05` | copy ✅ | 95 |
+
+Ở 40 cặp không chép, điểm cao nhất chỉ là 40 (`solution-01` / `solution-05`, hai bài cùng dùng sàng Eratosthenes), trung bình khoảng 13. Còn 5 cặp chép đều từ 90 trở lên, nên hai nhóm cách nhau rất xa. Với cặp `solution-01` / `solution-05`, AI nhận ra hai bài chỉ giống nhau vì cùng thuật toán kinh điển chứ không phải chép. So khớp văn bản (#3) lại chấm cặp này cao hơn cả cặp mức 4.
+
+**Thời gian và chi phí:** trung bình khoảng 28,5 giây mỗi cặp (từ 10,5 đến 65,3 giây). Cả 45 cặp mất khoảng 21 phút. Tổng cộng 23.850 token đầu vào và 37.123 token đầu ra. Model miễn phí nên không tốn tiền. Số token đầu ra cao hơn đầu vào, có thể vì model này tính cả phần suy luận vào token đầu ra.
+
+**Hạn chế đã thấy:**
+
+- **Không nêu số dòng.** Prompt yêu cầu nói rõ giống ở dòng nào, nhưng không câu trả lời nào ghi số dòng cụ thể. AI chỉ mô tả bằng tên biến và câu lệnh. Đây là lý do cần ép khuôn JSON có `from_line` / `to_line` và kiểm tra số dòng ở `v2`.
+- **Tự đoán bài nào chép bài nào.** Cả 5 cặp sao chép đều ghép theo thứ tự bài chép là bài A, bài gốc là bài B, do chương trình sắp tên file theo bảng chữ cái. Vậy mà ở 4/5 cặp, AI nói ngược lại, tức coi bài gốc là bài đã sửa từ bài chép. Ví dụ ở `copy-02` / `solution-02`, AI viết "Bài B chỉ đổi tên biến (`limit`->`n`…)". Chỉ nhìn hai đoạn code thì không biết bài nào có trước, nên những câu khẳng định chiều sao chép này không có căn cứ.
+- **Chậm và phụ thuộc nhà cung cấp.** Mỗi cặp mất 10–65 giây. Model miễn phí còn hay bị giới hạn lượt hoặc quá tải, như lần gemma ở trên. Với cả lớp 30–50 bài, tức 435–1.225 cặp, cách hỏi từng cặp sẽ rất chậm. Đó là lý do mentor đề xuất lọc nhanh bằng thuật toán trước rồi mới gửi ca khó cho AI.
+- **Mẫu còn nhỏ.** Mỗi mức chỉ có 1–2 cặp, và các bài đều ngắn (10–26 dòng). Kết quả 45/45 chưa đủ để kết luận AI luôn đúng. Cũng chưa chạy lại lần hai để xem AI có trả lời giống nhau không.
 
 ## Còn cần nhóm xác nhận
 
