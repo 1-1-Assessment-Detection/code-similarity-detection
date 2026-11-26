@@ -136,10 +136,10 @@ static int LevenshteinDistance(string left, string right)
 
 static string Outcome(bool expected, bool predicted) => (expected, predicted) switch
 {
-    (true, true) => "TP",
-    (false, true) => "FP",
-    (true, false) => "FN",
-    (false, false) => "TN"
+    (true, true) => "Phát hiện đúng",
+    (false, true) => "Báo nhầm",
+    (true, false) => "Bỏ sót",
+    (false, false) => "Loại đúng"
 };
 
 static string QuoteCsv(string value) => "\"" + value.Replace("\"", "\"\"") + "\"";

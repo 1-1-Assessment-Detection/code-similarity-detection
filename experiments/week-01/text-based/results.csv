@@ -1,46 +1,46 @@
 file_a,file_b,expected,level,equals,equals_outcome,a_contains_b,b_contains_a,contains,contains_outcome,levenshtein_distance,levenshtein_score,levenshtein_match,levenshtein_outcome
-"copied/copy-01-level-1.py","copied/copy-02-level-2.py",False,,False,TN,False,False,False,TN,405,0.346774,False,TN
-"copied/copy-01-level-1.py","copied/copy-03-level-3.py",False,,False,TN,False,False,False,TN,742,0.276803,False,TN
-"copied/copy-01-level-1.py","copied/copy-04-level-3.py",False,,False,TN,False,False,False,TN,250,0.464668,False,TN
-"copied/copy-01-level-1.py","copied/copy-05-level-4.py",False,,False,TN,False,False,False,TN,255,0.468750,False,TN
-"copied/copy-01-level-1.py","original/solution-01.py",True,1,False,FN,False,False,False,FN,96,0.776224,False,FN
-"copied/copy-01-level-1.py","original/solution-02.py",False,,False,TN,False,False,False,TN,270,0.393258,False,TN
-"copied/copy-01-level-1.py","original/solution-03.py",False,,False,TN,False,False,False,TN,619,0.308380,False,TN
-"copied/copy-01-level-1.py","original/solution-04.py",False,,False,TN,False,False,False,TN,253,0.418391,False,TN
-"copied/copy-01-level-1.py","original/solution-05.py",False,,False,TN,False,False,False,TN,208,0.515152,False,TN
-"copied/copy-02-level-2.py","copied/copy-03-level-3.py",False,,False,TN,False,False,False,TN,683,0.334308,False,TN
-"copied/copy-02-level-2.py","copied/copy-04-level-3.py",False,,False,TN,False,False,False,TN,347,0.440323,False,TN
-"copied/copy-02-level-2.py","copied/copy-05-level-4.py",False,,False,TN,False,False,False,TN,352,0.432258,False,TN
-"copied/copy-02-level-2.py","original/solution-01.py",False,,False,TN,False,False,False,TN,377,0.391935,False,TN
-"copied/copy-02-level-2.py","original/solution-02.py",True,2,False,FN,False,False,False,FN,219,0.646774,False,FN
-"copied/copy-02-level-2.py","original/solution-03.py",False,,False,TN,False,False,False,TN,580,0.351955,False,TN
-"copied/copy-02-level-2.py","original/solution-04.py",False,,False,TN,False,False,False,TN,347,0.440323,False,TN
-"copied/copy-02-level-2.py","original/solution-05.py",False,,False,TN,False,False,False,TN,349,0.437097,False,TN
-"copied/copy-03-level-3.py","copied/copy-04-level-3.py",False,,False,TN,False,False,False,TN,659,0.357700,False,TN
-"copied/copy-03-level-3.py","copied/copy-05-level-4.py",False,,False,TN,False,False,False,TN,695,0.322612,False,TN
-"copied/copy-03-level-3.py","original/solution-01.py",False,,False,TN,False,False,False,TN,756,0.263158,False,TN
-"copied/copy-03-level-3.py","original/solution-02.py",False,,False,TN,False,False,False,TN,704,0.313840,False,TN
-"copied/copy-03-level-3.py","original/solution-03.py",True,3,False,FN,False,False,False,FN,347,0.661793,False,FN
-"copied/copy-03-level-3.py","original/solution-04.py",False,,False,TN,False,False,False,TN,687,0.330409,False,TN
-"copied/copy-03-level-3.py","original/solution-05.py",False,,False,TN,False,False,False,TN,695,0.322612,False,TN
-"copied/copy-04-level-3.py","copied/copy-05-level-4.py",False,,False,TN,False,False,False,TN,248,0.483333,False,TN
-"copied/copy-04-level-3.py","original/solution-01.py",False,,False,TN,False,False,False,TN,231,0.505353,False,TN
-"copied/copy-04-level-3.py","original/solution-02.py",False,,False,TN,False,False,False,TN,237,0.492505,False,TN
-"copied/copy-04-level-3.py","original/solution-03.py",False,,False,TN,False,False,False,TN,578,0.354190,False,TN
-"copied/copy-04-level-3.py","original/solution-04.py",True,3,False,FN,False,False,False,FN,50,0.892934,True,TP
-"copied/copy-04-level-3.py","original/solution-05.py",False,,False,TN,False,False,False,TN,231,0.505353,False,TN
-"copied/copy-05-level-4.py","original/solution-01.py",False,,False,TN,False,False,False,TN,195,0.593750,False,TN
-"copied/copy-05-level-4.py","original/solution-02.py",False,,False,TN,False,False,False,TN,249,0.481250,False,TN
-"copied/copy-05-level-4.py","original/solution-03.py",False,,False,TN,False,False,False,TN,583,0.348603,False,TN
-"copied/copy-05-level-4.py","original/solution-04.py",False,,False,TN,False,False,False,TN,241,0.497917,False,TN
-"copied/copy-05-level-4.py","original/solution-05.py",True,4,False,FN,False,False,False,FN,215,0.552083,False,FN
-"original/solution-01.py","original/solution-02.py",False,,False,TN,False,False,False,TN,206,0.537079,False,TN
-"original/solution-01.py","original/solution-03.py",False,,False,TN,False,False,False,TN,628,0.298324,False,TN
-"original/solution-01.py","original/solution-04.py",False,,False,TN,False,False,False,TN,212,0.512644,False,TN
-"original/solution-01.py","original/solution-05.py",False,,False,TN,False,False,False,TN,134,0.638814,False,TN
-"original/solution-02.py","original/solution-03.py",False,,False,TN,False,False,False,TN,556,0.378771,False,TN
-"original/solution-02.py","original/solution-04.py",False,,False,TN,False,False,False,TN,230,0.483146,False,TN
-"original/solution-02.py","original/solution-05.py",False,,False,TN,False,False,False,TN,190,0.573034,False,TN
-"original/solution-03.py","original/solution-04.py",False,,False,TN,False,False,False,TN,588,0.343017,False,TN
-"original/solution-03.py","original/solution-05.py",False,,False,TN,False,False,False,TN,578,0.354190,False,TN
-"original/solution-04.py","original/solution-05.py",False,,False,TN,False,False,False,TN,222,0.489655,False,TN
+"copied/copy-01-level-1.py","copied/copy-02-level-2.py",False,,False,Loại đúng,False,False,False,Loại đúng,405,0.346774,False,Loại đúng
+"copied/copy-01-level-1.py","copied/copy-03-level-3.py",False,,False,Loại đúng,False,False,False,Loại đúng,742,0.276803,False,Loại đúng
+"copied/copy-01-level-1.py","copied/copy-04-level-3.py",False,,False,Loại đúng,False,False,False,Loại đúng,250,0.464668,False,Loại đúng
+"copied/copy-01-level-1.py","copied/copy-05-level-4.py",False,,False,Loại đúng,False,False,False,Loại đúng,255,0.468750,False,Loại đúng
+"copied/copy-01-level-1.py","original/solution-01.py",True,1,False,Bỏ sót,False,False,False,Bỏ sót,96,0.776224,False,Bỏ sót
+"copied/copy-01-level-1.py","original/solution-02.py",False,,False,Loại đúng,False,False,False,Loại đúng,270,0.393258,False,Loại đúng
+"copied/copy-01-level-1.py","original/solution-03.py",False,,False,Loại đúng,False,False,False,Loại đúng,619,0.308380,False,Loại đúng
+"copied/copy-01-level-1.py","original/solution-04.py",False,,False,Loại đúng,False,False,False,Loại đúng,253,0.418391,False,Loại đúng
+"copied/copy-01-level-1.py","original/solution-05.py",False,,False,Loại đúng,False,False,False,Loại đúng,208,0.515152,False,Loại đúng
+"copied/copy-02-level-2.py","copied/copy-03-level-3.py",False,,False,Loại đúng,False,False,False,Loại đúng,683,0.334308,False,Loại đúng
+"copied/copy-02-level-2.py","copied/copy-04-level-3.py",False,,False,Loại đúng,False,False,False,Loại đúng,347,0.440323,False,Loại đúng
+"copied/copy-02-level-2.py","copied/copy-05-level-4.py",False,,False,Loại đúng,False,False,False,Loại đúng,352,0.432258,False,Loại đúng
+"copied/copy-02-level-2.py","original/solution-01.py",False,,False,Loại đúng,False,False,False,Loại đúng,377,0.391935,False,Loại đúng
+"copied/copy-02-level-2.py","original/solution-02.py",True,2,False,Bỏ sót,False,False,False,Bỏ sót,219,0.646774,False,Bỏ sót
+"copied/copy-02-level-2.py","original/solution-03.py",False,,False,Loại đúng,False,False,False,Loại đúng,580,0.351955,False,Loại đúng
+"copied/copy-02-level-2.py","original/solution-04.py",False,,False,Loại đúng,False,False,False,Loại đúng,347,0.440323,False,Loại đúng
+"copied/copy-02-level-2.py","original/solution-05.py",False,,False,Loại đúng,False,False,False,Loại đúng,349,0.437097,False,Loại đúng
+"copied/copy-03-level-3.py","copied/copy-04-level-3.py",False,,False,Loại đúng,False,False,False,Loại đúng,659,0.357700,False,Loại đúng
+"copied/copy-03-level-3.py","copied/copy-05-level-4.py",False,,False,Loại đúng,False,False,False,Loại đúng,695,0.322612,False,Loại đúng
+"copied/copy-03-level-3.py","original/solution-01.py",False,,False,Loại đúng,False,False,False,Loại đúng,756,0.263158,False,Loại đúng
+"copied/copy-03-level-3.py","original/solution-02.py",False,,False,Loại đúng,False,False,False,Loại đúng,704,0.313840,False,Loại đúng
+"copied/copy-03-level-3.py","original/solution-03.py",True,3,False,Bỏ sót,False,False,False,Bỏ sót,347,0.661793,False,Bỏ sót
+"copied/copy-03-level-3.py","original/solution-04.py",False,,False,Loại đúng,False,False,False,Loại đúng,687,0.330409,False,Loại đúng
+"copied/copy-03-level-3.py","original/solution-05.py",False,,False,Loại đúng,False,False,False,Loại đúng,695,0.322612,False,Loại đúng
+"copied/copy-04-level-3.py","copied/copy-05-level-4.py",False,,False,Loại đúng,False,False,False,Loại đúng,248,0.483333,False,Loại đúng
+"copied/copy-04-level-3.py","original/solution-01.py",False,,False,Loại đúng,False,False,False,Loại đúng,231,0.505353,False,Loại đúng
+"copied/copy-04-level-3.py","original/solution-02.py",False,,False,Loại đúng,False,False,False,Loại đúng,237,0.492505,False,Loại đúng
+"copied/copy-04-level-3.py","original/solution-03.py",False,,False,Loại đúng,False,False,False,Loại đúng,578,0.354190,False,Loại đúng
+"copied/copy-04-level-3.py","original/solution-04.py",True,3,False,Bỏ sót,False,False,False,Bỏ sót,50,0.892934,True,Phát hiện đúng
+"copied/copy-04-level-3.py","original/solution-05.py",False,,False,Loại đúng,False,False,False,Loại đúng,231,0.505353,False,Loại đúng
+"copied/copy-05-level-4.py","original/solution-01.py",False,,False,Loại đúng,False,False,False,Loại đúng,195,0.593750,False,Loại đúng
+"copied/copy-05-level-4.py","original/solution-02.py",False,,False,Loại đúng,False,False,False,Loại đúng,249,0.481250,False,Loại đúng
+"copied/copy-05-level-4.py","original/solution-03.py",False,,False,Loại đúng,False,False,False,Loại đúng,583,0.348603,False,Loại đúng
+"copied/copy-05-level-4.py","original/solution-04.py",False,,False,Loại đúng,False,False,False,Loại đúng,241,0.497917,False,Loại đúng
+"copied/copy-05-level-4.py","original/solution-05.py",True,4,False,Bỏ sót,False,False,False,Bỏ sót,215,0.552083,False,Bỏ sót
+"original/solution-01.py","original/solution-02.py",False,,False,Loại đúng,False,False,False,Loại đúng,206,0.537079,False,Loại đúng
+"original/solution-01.py","original/solution-03.py",False,,False,Loại đúng,False,False,False,Loại đúng,628,0.298324,False,Loại đúng
+"original/solution-01.py","original/solution-04.py",False,,False,Loại đúng,False,False,False,Loại đúng,212,0.512644,False,Loại đúng
+"original/solution-01.py","original/solution-05.py",False,,False,Loại đúng,False,False,False,Loại đúng,134,0.638814,False,Loại đúng
+"original/solution-02.py","original/solution-03.py",False,,False,Loại đúng,False,False,False,Loại đúng,556,0.378771,False,Loại đúng
+"original/solution-02.py","original/solution-04.py",False,,False,Loại đúng,False,False,False,Loại đúng,230,0.483146,False,Loại đúng
+"original/solution-02.py","original/solution-05.py",False,,False,Loại đúng,False,False,False,Loại đúng,190,0.573034,False,Loại đúng
+"original/solution-03.py","original/solution-04.py",False,,False,Loại đúng,False,False,False,Loại đúng,588,0.343017,False,Loại đúng
+"original/solution-03.py","original/solution-05.py",False,,False,Loại đúng,False,False,False,Loại đúng,578,0.354190,False,Loại đúng
+"original/solution-04.py","original/solution-05.py",False,,False,Loại đúng,False,False,False,Loại đúng,222,0.489655,False,Loại đúng
