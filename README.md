@@ -2,7 +2,7 @@
 
 Dự án xây dựng hệ thống phát hiện mã nguồn tương đồng cho bài tập lập trình nộp một file. Hệ thống nhận bài qua HTTP API từ Nhóm 1.2 hoặc qua giao diện upload `.zip` để kiểm thử độc lập, loại bỏ code khung mẫu, phân tích mức độ tương đồng và trả kết quả cho Nhóm 1.2. Phạm vi ban đầu tập trung vào C++ và Python.
 
-> **Trạng thái:** Cấu trúc dưới đây là **dự kiến**, dùng để thống nhất nơi lưu tài liệu, mã nguồn, dữ liệu và kết quả thực nghiệm. Các thư mục chưa được tạo chỉ vì xuất hiện trong sơ đồ. Repository hiện có tài liệu mentor tại [`docs/requirments/nhom-1.1-code-similarity-detection.md`](docs/requirments/nhom-1.1-code-similarity-detection.md), [đề bài mẫu tuần 1](docs/research/sample-problem.md), `.gitignore` và `AGENTS.md`; chưa có ứng dụng để build hoặc chạy.
+> **Trạng thái:** Cấu trúc dưới đây là **dự kiến**, dùng để thống nhất nơi lưu tài liệu, mã nguồn, dữ liệu và kết quả thực nghiệm. Các thư mục chưa được tạo chỉ vì xuất hiện trong sơ đồ. Repository hiện có tài liệu mentor tại [`docs/requirments/nhom-1.1-code-similarity-detection.md`](docs/requirments/nhom-1.1-code-similarity-detection.md), [đề bài mẫu tuần 1](docs/research/sample-problem.md), [đặc tả API quét](docs/03-api/API_CONTRACT.md) và [JSON ví dụ](docs/03-api/api-scans-sample.json), `.gitignore` và `AGENTS.md`; chưa có ứng dụng để build hoặc chạy.
 
 ## Cấu trúc thư mục dự kiến
 

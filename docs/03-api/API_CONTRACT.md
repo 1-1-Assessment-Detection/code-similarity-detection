@@ -1,6 +1,6 @@
 # Đặc tả trao đổi API quét mã tương đồng giữa Nhóm 1.1 và Nhóm 1.2
 
-> **Trạng thái: bản đề xuất để hai nhóm xác nhận.** Tài liệu này cụ thể hóa hai API trong [yêu cầu mentor](requirments/nhom-1.1-code-similarity-detection.md#2-giao-tiếp-http-api-với-nhóm-12) và các mã HTTP trong ảnh của task. Việc viết tài liệu không xác nhận Nhóm 1.2 đã chấp thuận hoặc backend đã triển khai. Các điểm chưa có căn cứ nằm ở cuối tài liệu; không xem chúng là hợp đồng đã chốt.
+> **Trạng thái: bản đề xuất để hai nhóm xác nhận.** Tài liệu này cụ thể hóa hai API trong [yêu cầu mentor](../requirments/nhom-1.1-code-similarity-detection.md#2-giao-tiếp-http-api-với-nhóm-12) và các mã HTTP trong ảnh của task. Việc viết tài liệu không xác nhận Nhóm 1.2 đã chấp thuận hoặc backend đã triển khai. Các điểm chưa có căn cứ nằm ở cuối tài liệu; không xem chúng là hợp đồng đã chốt.
 
 ## Phạm vi và quy ước chung
 

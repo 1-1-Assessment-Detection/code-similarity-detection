@@ -18,7 +18,7 @@ File này áp dụng cho toàn bộ repository. Khi nhận một task, hãy tuâ
 2. `README.md`: Tổng quan, thiết lập và cách chạy **khi file được tạo**.
 3. `docs/REQUIREMENTS.md`: Yêu cầu nghiệp vụ chi tiết **khi được nhóm tạo và phê duyệt**.
 4. `docs/ARCHITECTURE.md` và `docs/adr/`: Kiến trúc và quyết định đã duyệt **khi có**.
-5. `docs/API_CONTRACT.md`: Hợp đồng API đã thống nhất với Nhóm 1.2 **khi có**. Mẫu JSON trong tài liệu mentor là điểm khởi đầu, không tự xem là hợp đồng cuối cùng.
+5. `docs/03-api/API_CONTRACT.md`: Hợp đồng API đã thống nhất với Nhóm 1.2 **khi có**. Mẫu JSON trong tài liệu mentor là điểm khởi đầu, không tự xem là hợp đồng cuối cùng.
 
 Không tự đặt ra yêu cầu nghiệp vụ còn thiếu. Nếu tài liệu, task và code mâu thuẫn ở điểm ảnh hưởng đến kết quả, nêu rõ mâu thuẫn để người phụ trách quyết định; không âm thầm sửa yêu cầu đã duyệt. Đặc biệt phải đọc API Contract đã thống nhất trước khi đổi request/response của hai nhóm.
 
