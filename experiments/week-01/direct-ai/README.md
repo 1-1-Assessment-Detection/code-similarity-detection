@@ -1,93 +1,79 @@
-# Thực nghiệm Tuần 1 — Hỏi trực tiếp AI (Direct AI)
+# Thực nghiệm tuần 1: hỏi trực tiếp AI
 
-Issue liên quan: #4 *Evaluate Direct AI-Based Similarity Detection*. Kết quả được dùng cho #5 *Analyze and Document Detection Errors*.
+Thư mục này phục vụ issue #4. Kết quả sẽ được chuyển sang #5 để tổng hợp bảng phân tích lỗi.
 
-> **Trạng thái:** Có khung và chương trình chạy thực nghiệm (`DirectAiExperiment/`, C#), gọi AI qua OpenRouter Chat Completions. Bộ dữ liệu #2 đã có trên `main`; chế độ xem trước đã kiểm tra đủ 10 bài / 45 cặp / 5 cặp sao chép. Chưa chạy thật, kết quả và ngày chạy còn `TBD`.
+> **Trạng thái:** Chương trình đã sẵn sàng nhưng chưa chạy được thật vì tài khoản OpenRouter hết lượt miễn phí trong ngày. Kết quả và ngày chạy sẽ cập nhật sau.
 
-## Mục tiêu
+## Thực nghiệm này làm gì
 
-Đo khả năng phát hiện mã nguồn tương đồng khi đưa **trực tiếp từng cặp bài** cho AI, **chưa dùng** AI Harness, Tool Calling hay Self-check Loop. Đây là Phương án B (bản thô `v1`) trong tài liệu mentor.
+Nhóm muốn biết nếu chỉ đưa thẳng hai bài cho AI rồi hỏi "có chép nhau không" thì AI làm tốt tới đâu. Đây là Phương án B (bản thô `v1`) trong tài liệu mentor, nên **chưa** có AI Harness, Tool Calling hay vòng tự kiểm tra.
 
-## Quy tắc thực nghiệm
+Để kết quả công bằng, nhóm giữ mấy nguyên tắc sau:
 
-- Đánh giá đủ **45 cặp** không trùng lặp từ 10 bài mẫu (`datasets/week-01/`).
-- Dùng **cùng một prompt và cấu hình** cho mọi cặp (xem [`prompt.md`](prompt.md)).
-- **Không** đưa nhãn Ground Truth hoặc tên file gợi ý bài gốc/bài sao chép vào prompt.
-- Mỗi cặp chạy trong một lượt hỏi riêng, không giữ ngữ cảnh từ cặp trước.
-- Chỉ dùng dữ liệu tự tạo của nhóm. Chưa gửi mã riêng tư ra ngoài.
-- Dùng đúng **một model** cho mọi cặp. Khi gặp HTTP 429 (giới hạn tốc độ), chương trình dừng và báo rõ; chạy lại cùng lệnh với **cùng model** để tiếp tục. Không tự chuyển sang model khác hoặc biến thể trả phí.
+- Chạy đủ 45 cặp ghép từ 10 bài trong [`datasets/week-01/`](../../../datasets/week-01/README.md).
+- Mọi cặp dùng chung một [prompt](prompt.md) và một model. Nếu phải đổi model giữa chừng thì chạy lại từ đầu.
+- AI chỉ thấy nội dung code. Tên file, đáp án hay bất cứ gợi ý nào về bài gốc đều không đưa vào prompt.
+- Mỗi cặp là một lượt hỏi riêng, AI không nhớ gì từ cặp trước.
+- Chỉ gửi bài mẫu do nhóm tự viết, không gửi code của người khác.
 
 ## Cấu hình
 
-Khóa và model đọc từ biến môi trường hoặc `.env.local` ở thư mục gốc repo (xem [`.env.example`](../../../.env.example)). Không commit khóa.
-
-| Biến | Ý nghĩa | Giá trị mẫu |
-| --- | --- | --- |
-| `OPENROUTER_API_KEY` | Khóa OpenRouter của bạn | `sk-or-v1-...` (không đưa vào Git) |
-| `OPENROUTER_MODEL` | Model dùng cho cả lần chạy | `baidu/ernie-5.5-flash-preview:free` |
-
 | Mục | Giá trị |
 | --- | --- |
-| Provider | OpenRouter (Chat Completions) |
-| Model | `baidu/ernie-5.5-flash-preview:free` (từ `OPENROUTER_MODEL`) |
-| Effort / temperature | Không đặt, dùng mặc định của model; chạy lại có thể cho kết quả khác |
-| Phiên bản prompt | `v1` |
-| Dataset tham chiếu | `datasets/week-01/` (commit `8f2e750`) |
-| Ngày chạy | TBD |
+| Nơi gọi AI | OpenRouter (Chat Completions) |
+| Model | `google/gemma-4-31b-it:free` |
+| Temperature | Để mặc định, nên chạy lại có thể ra kết quả hơi khác |
+| Prompt | `v1` |
+| Dữ liệu | `datasets/week-01/`, commit `8f2e750` |
+| Ngày chạy | Chưa chạy |
 
-## Cấu trúc thư mục
+Khóa API và tên model đặt trong file `.env.local` ở thư mục gốc repo, xem mẫu ở [`.env.example`](../../../.env.example). File này đã nằm trong `.gitignore`, đừng commit khóa lên.
 
-```text
-experiments/week-01/direct-ai/
-├── README.md          # File này
-├── DirectAiExperiment/ # Chương trình C# chạy thực nghiệm
-├── prompt.md          # Prompt dùng chung cho mọi cặp
-├── results.csv        # Một dòng mỗi cặp, đối chiếu với Ground Truth
-└── responses/         # (tạo khi chạy) Phản hồi gốc của AI: <submission_a>__<submission_b>.md
+## Cách chạy
+
+Chạy từ thư mục gốc repo. Lệnh đầu chỉ liệt kê bài và cặp để kiểm tra, không gọi AI. Thêm `--run` mới gọi thật:
+
+```powershell
+dotnet run --project experiments/week-01/direct-ai/DirectAiExperiment
+dotnet run --project experiments/week-01/direct-ai/DirectAiExperiment -- --run
 ```
 
-`responses/` chưa tạo vì chưa có nội dung. Không đặt dữ liệu bài nộp vào đây, chỉ tham chiếu `datasets/week-01/`.
+Lần chạy thử phải ra 10 bài, 45 cặp, trong đó 5 cặp sao chép.
 
-## Cột của `results.csv`
+Model miễn phí hay chập chờn nên chương trình được viết để **chạy lại bao nhiêu lần cũng được**. Cặp nào đã có câu trả lời thì bỏ qua, chỉ hỏi những cặp còn thiếu. Cụ thể:
+
+- Bị giới hạn lượt (HTTP 429): dừng ngay, thoát với mã `2`. Đợi rồi chạy lại đúng lệnh cũ. Nếu thông báo ghi `free-models-per-day` thì phải đợi sang ngày hôm sau.
+- Lỗi mạng, lỗi API hoặc AI trả về rỗng: không lưu gì, lần sau hỏi lại cặp đó.
+- AI có trả lời nhưng sai định dạng: vẫn lưu lại và ghi `khong_parse_duoc`. Đây là lỗi của AI nên tính vào kết quả, không hỏi lại.
+- Chưa đủ 45 cặp có kết luận thì thoát với mã `3`. Đủ hết mới thoát với mã `0`.
+
+Lệnh còn nhận thêm `--submissions`, `--ground-truth`, `--prompt`, `--out` nếu muốn trỏ sang chỗ khác. Bình thường không cần dùng.
+
+## Kết quả nằm ở đâu
+
+- `responses/`: câu trả lời gốc của AI cho từng cặp, mỗi cặp một file. Thư mục này tự tạo khi chạy.
+- [`results.csv`](results.csv): mỗi cặp một dòng, đã so sẵn với đáp án.
 
 | Cột | Ý nghĩa |
 | --- | --- |
-| `pair_id` | Mã cặp, ví dụ `P01`…`P45` |
-| `submission_a`, `submission_b` | Tên hai bài, khớp `ground-truth.csv` |
-| `ai_verdict` | `copy` / `not_copy` (rút từ phản hồi AI) |
-| `ai_similarity` | Điểm 0–100 AI trả về |
-| `response_file` | Đường dẫn file phản hồi gốc trong `responses/` |
-| `ground_truth` | `copy` / `not_copy` theo `ground-truth.csv` |
-| `level` | Mức sao chép 1–4, để trống nếu không phải cặp sao chép |
-| `outcome` | `correct` / `false_positive` / `missed` |
-| `latency_seconds` | Thời gian xử lý một cặp (giây) |
-| `input_tokens`, `output_tokens` | Số token của lượt hỏi nếu API có trả, để trống nếu không |
-| `notes` | Nguyên nhân sai hoặc lỗi của AI (hallucination, sai dòng, không nhất quán…) |
+| `pair_id` | Mã cặp, từ `P01` đến `P45` |
+| `submission_a`, `submission_b` | Tên hai bài |
+| `ai_verdict` | AI kết luận `copy` hay `not_copy` |
+| `ai_similarity` | Điểm giống nhau AI chấm, từ 0 đến 100 |
+| `response_file` | File câu trả lời gốc trong `responses/` |
+| `ground_truth` | Đáp án thật, lấy từ `ground-truth.csv` |
+| `level` | Mức sao chép 1–4. Để trống nếu cặp không chép |
+| `outcome` | `correct` (AI đúng), `false_positive` (báo nhầm), `missed` (bỏ sót) |
+| `latency_seconds` | Thời gian chờ AI trả lời một cặp |
+| `input_tokens`, `output_tokens` | Số token, nếu OpenRouter có trả về |
+| `notes` | Lỗi ghi nhận được, ví dụ không đọc được câu trả lời hoặc model trả về khác model đã chọn |
 
-## Quy trình
+## Nhận xét
 
-1. Kiểm tra dataset vẫn ở commit đã ghi trong bảng Cấu hình; nếu đổi, cập nhật bảng trước khi chạy.
-2. Điền `OPENROUTER_API_KEY` và `OPENROUTER_MODEL` vào `.env.local`.
-3. Xem trước (không gọi API), kiểm tra đủ 10 bài, 45 cặp và 5 cặp sao chép, rồi chạy thật. Chạy từ thư mục gốc repo:
+Sẽ viết sau khi có kết quả: AI bắt được bao nhiêu cặp ở mỗi mức, báo nhầm bao nhiêu, mất bao lâu, tốn bao nhiêu token, và AI hay sai kiểu gì.
 
-   ```powershell
-   # Xem trước (mặc định đọc datasets/week-01/original, copied và ground-truth.csv)
-   dotnet run --project experiments/week-01/direct-ai/DirectAiExperiment
-   # Chạy thật (thêm --run); lưu phản hồi gốc vào responses/
-   dotnet run --project experiments/week-01/direct-ai/DirectAiExperiment -- --run
-   ```
+Lưu ý khi đọc kết quả: mỗi mức chỉ có 1 hoặc 2 cặp, nên tỷ lệ theo mức chỉ mang tính tham khảo.
 
-   Tham số tùy chọn: `--submissions <thư mục>` (có thể lặp lại, thay thế mặc định), `--ground-truth <file.csv>`, `--prompt <file>`, `--out <thư mục>`. Thư mục `verify/` của dataset không phải bài nộp nên không được quét.
+## Còn cần nhóm xác nhận
 
-   Mã thoát: `0` khi đủ 45/45 cặp có kết luận hợp lệ; `2` khi gặp HTTP 429 (đợi rồi chạy lại cùng lệnh để tiếp tục); `3` khi còn cặp lỗi API hoặc phản hồi không đọc được.
-
-   Model miễn phí chưa ổn định. Lỗi API, JSON thiếu `choices` và phản hồi rỗng **không** ghi file, nên chạy lại sẽ hỏi lại đúng các cặp đó. Phản hồi có nội dung nhưng không đọc được `KET_LUAN`/`DIEM_GIONG` vẫn được lưu và ghi `khong_parse_duoc` trong `notes`; đó là lỗi của AI ở `v1`, không hỏi lại. Bộ đọc chấp nhận nhãn có dấu và định dạng Markdown quanh nhãn, ví dụ `**KẾT_LUẬN:** copy`.
-4. Chương trình tự điền `results.csv` và đối chiếu `ground-truth.csv` để gán `ground_truth`, `level`, `outcome`. Cặp không có trong ground truth là `not_copy`.
-5. Viết nhận xét sơ bộ: hiệu quả theo 4 mức, tỷ lệ báo nhầm, thời gian, chi phí token.
-6. Bàn giao kết quả cho #5.
-
-## Việc cần chốt
-
-- Giới hạn tốc độ của model miễn phí có đủ cho 45 cặp trong một lần chạy hay không (nếu không, chạy làm nhiều đợt cùng model).
-- Dữ liệu gửi qua OpenRouter: chỉ bài mẫu do nhóm tự tạo, không gửi mã riêng tư.
-- Ground truth (`datasets/week-01/ground-truth.csv`) chỉ liệt kê 5 cặp sao chép; chương trình coi 40 cặp còn lại là không sao chép. Cặp "bài sao chép với bài sao chép khác" và "bài sao chép với bài gốc khác" đều tính là không sao chép; cần mentor/nhóm xác nhận cách gán nhãn này.
+`ground-truth.csv` chỉ ghi 5 cặp chép. 40 cặp còn lại đang được tính là không chép, kể cả cặp giữa hai bài chép khác nhau, hay bài chép với một bài gốc không phải bản gốc của nó. Cần mentor hoặc nhóm xác nhận cách tính này.
