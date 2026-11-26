@@ -1,5 +1,5 @@
 class Solution:
-    # Same code; only whitespace and this comment were changed.
+   
     def countPrimes(self, n: int) -> int:
         if n <= 2:
             return 0
