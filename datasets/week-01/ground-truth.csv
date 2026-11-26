@@ -1,0 +1,6 @@
+copy_id,original_id,copy_path,original_path,level,change_description
+COPY-01,ORIG-01,copied/copy-01-level-1.py,original/solution-01.py,1,"Whitespace and comment changed; implementation and identifiers retained"
+COPY-02,ORIG-02,copied/copy-02-level-2.py,original/solution-02.py,2,"Renamed parameter and local variables; odd-only sieve algorithm retained"
+COPY-03,ORIG-03,copied/copy-03-level-3.py,original/solution-03.py,3,"Reworked segmented sieve loops: base-prime marking uses while; blocks use for and composite marking uses explicit range traversal"
+COPY-04,ORIG-04,copied/copy-04-level-3.py,original/solution-04.py,3,"Changed outer traversal from for to while; linear sieve retained"
+COPY-05,ORIG-05,copied/copy-05-level-4.py,original/solution-05.py,4,"AI rewrite preserves the bytearray Eratosthenes sieve idea"

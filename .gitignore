@@ -35,3 +35,7 @@ logs/
 !.env.sample
 appsettings.Local.json
 appsettings.*.local.json
+
+# Python bytecode
+__pycache__/
+*.py[cod]
