@@ -2,7 +2,7 @@
 
 Dự án xây dựng hệ thống phát hiện mã nguồn tương đồng cho bài tập lập trình nộp một file. Hệ thống nhận bài qua HTTP API từ Nhóm 1.2 hoặc qua giao diện upload `.zip` để kiểm thử độc lập, loại bỏ code khung mẫu, phân tích mức độ tương đồng và trả kết quả cho Nhóm 1.2. Phạm vi ban đầu tập trung vào C++ và Python.
 
-> **Trạng thái:** Cấu trúc dưới đây là **dự kiến**, dùng để thống nhất nơi lưu tài liệu, mã nguồn, dữ liệu và kết quả thực nghiệm. Các thư mục chưa được tạo chỉ vì xuất hiện trong sơ đồ. Repository hiện có tài liệu mentor tại [`docs/requirments/nhom-1.1-code-similarity-detection.md`](docs/requirments/nhom-1.1-code-similarity-detection.md), [đề bài mẫu tuần 1](docs/research/sample-problem.md), [đặc tả API quét](docs/03-api/API_CONTRACT.md) và [JSON ví dụ](docs/03-api/api-scans-sample.json), `.gitignore` và `AGENTS.md`; chưa có ứng dụng để build hoặc chạy.
+> **Trạng thái:** Cấu trúc dưới đây là **dự kiến**, dùng để thống nhất nơi lưu tài liệu, mã nguồn, dữ liệu và kết quả thực nghiệm. Các thư mục chưa được tạo chỉ vì xuất hiện trong sơ đồ. Repository hiện có tài liệu mentor tại [`docs/requirments/nhom-1.1-code-similarity-detection.md`](docs/requirments/nhom-1.1-code-similarity-detection.md), [đề bài mẫu tuần 1](docs/research/sample-problem.md), [đặc tả API quét](docs/api/API_CONTRACT.md) và [JSON ví dụ](docs/api/api-scans-sample.json), `.gitignore` và `AGENTS.md`; chưa có ứng dụng để build hoặc chạy.
 
 ## Cấu trúc thư mục dự kiến
 
@@ -11,7 +11,7 @@ code-similarity-detection/
 ├── docs/                         # Tài liệu dự án
 │   ├── 01-requirements/          # Yêu cầu và phạm vi
 │   ├── 02-design/                # Thiết kế hệ thống
-│   ├── 03-api/                   # Hợp đồng API
+│   ├── api/                      # Hợp đồng API
 │   ├── 04-research/              # Nghiên cứu phương pháp
 │   ├── 05-project-management/    # Quản lý công việc
 │   ├── 06-testing/               # Kế hoạch và báo cáo kiểm thử
@@ -38,7 +38,7 @@ code-similarity-detection/
 | --- | --- |
 | `01-requirements/` | Yêu cầu từ mentor, phạm vi MVP, tiêu chí chấp nhận và các yêu cầu đã được nhóm thống nhất. |
 | `02-design/` | Sơ đồ kiến trúc, luồng xử lý quét, mô hình dữ liệu và quyết định thiết kế. |
-| `03-api/` | Hợp đồng HTTP API với Nhóm 1.2: endpoint, xác thực, mẫu request/response, trạng thái và mã lỗi đã thống nhất. |
+| `api/` | Hợp đồng HTTP API với Nhóm 1.2: endpoint, xác thực, mẫu request/response, trạng thái và mã lỗi đã thống nhất. |
 | `04-research/` | Tài liệu tham khảo, khảo sát Tree-sitter/Winnowing, phương án phát hiện tương đồng và lý do chọn phương pháp. |
 | `research/` | Đề bài mẫu tuần 1 tại `sample-problem.md`, theo đường dẫn đã được người phụ trách yêu cầu. |
 | `05-project-management/` | Kế hoạch theo tuần, phân công, mốc bàn giao, biên bản họp và tiến độ. |
