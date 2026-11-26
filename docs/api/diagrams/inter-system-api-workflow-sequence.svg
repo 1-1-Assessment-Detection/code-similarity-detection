@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="3020" viewBox="0 0 1600 3020" role="img" aria-labelledby="title description">
+  <title id="title">Sequence Diagram — API quét mã tương đồng giữa Nhóm 1.2 và Nhóm 1.1</title>
+  <desc id="description">Luồng POST tạo tác vụ quét, xử lý bất đồng bộ, polling GET, kết quả processing hoặc done và các nhóm lỗi HTTP theo API Contract.</desc>
+  <defs>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#15803d"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#c2410c"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#b91c1c"/>
+    </marker>
+    <style>
+      text { font-family: "Segoe UI", Arial, sans-serif; fill: #172033; }
+      .title { font-size: 30px; font-weight: 700; }
+      .subtitle { font-size: 17px; fill: #4b5563; }
+      .participant { fill: #eff6ff; stroke: #1d4ed8; stroke-width: 2; rx: 10; }
+      .participant-title { font-size: 20px; font-weight: 700; text-anchor: middle; }
+      .participant-subtitle { font-size: 16px; text-anchor: middle; fill: #475569; }
+      .lifeline { stroke: #94a3b8; stroke-width: 2; stroke-dasharray: 8 8; }
+      .request { stroke: #2563eb; stroke-width: 2.5; marker-end: url(#arrow-blue); }
+      .response { stroke: #15803d; stroke-width: 2.5; stroke-dasharray: 8 5; marker-end: url(#arrow-green); }
+      .internal { stroke: #c2410c; stroke-width: 2.5; marker-end: url(#arrow-orange); }
+      .error { stroke: #b91c1c; stroke-width: 2.5; stroke-dasharray: 8 5; marker-end: url(#arrow-red); }
+      .message { font-size: 17px; font-weight: 600; text-anchor: middle; }
+      .detail { font-size: 15px; fill: #475569; text-anchor: middle; }
+      .frame { fill: #ffffff; stroke: #64748b; stroke-width: 2; rx: 7; }
+      .frame-label { fill: #334155; }
+      .frame-label-text { fill: #ffffff; font-size: 16px; font-weight: 700; }
+      .separator { stroke: #94a3b8; stroke-width: 1.5; stroke-dasharray: 7 5; }
+      .branch-label { font-size: 16px; font-weight: 700; fill: #334155; }
+      .note { fill: #fff7d6; stroke: #d97706; stroke-width: 1.8; rx: 8; }
+      .note-text { font-size: 16px; fill: #78350f; text-anchor: middle; }
+      .code-box { fill: #f8fafc; stroke: #2563eb; stroke-width: 2; rx: 8; }
+      .code-title { font-size: 16px; font-weight: 700; fill: #1d4ed8; }
+      .code-text { font-family: Consolas, "Courier New", monospace; font-size: 14px; fill: #1e293b; }
+      .legend { font-size: 15px; fill: #475569; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="3020" fill="#f8fafc"/>
+  <text x="800" y="48" class="title" text-anchor="middle">Sequence Diagram — API quét mã tương đồng</text>
+  <text x="800" y="79" class="subtitle" text-anchor="middle">Giao tiếp HTTP giữa AI Code Assessment (Nhóm 1.2) và Code Similarity Detection (Nhóm 1.1)</text>
+
+  <rect x="110" y="110" width="360" height="92" class="participant"/>
+  <text x="290" y="146" class="participant-title">Nhóm 1.2</text>
+  <text x="290" y="177" class="participant-subtitle">AI Code Assessment</text>
+
+  <rect x="620" y="110" width="360" height="92" class="participant"/>
+  <text x="800" y="146" class="participant-title">Nhóm 1.1</text>
+  <text x="800" y="177" class="participant-subtitle">Similarity HTTP API</text>
+
+  <rect x="1130" y="110" width="360" height="92" class="participant"/>
+  <text x="1310" y="146" class="participant-title">Nhóm 1.1</text>
+  <text x="1310" y="177" class="participant-subtitle">Tác vụ quét bất đồng bộ</text>
+
+  <line x1="290" y1="202" x2="290" y2="2830" class="lifeline"/>
+  <line x1="800" y1="202" x2="800" y2="2830" class="lifeline"/>
+  <line x1="1310" y1="202" x2="1310" y2="2830" class="lifeline"/>
+
+  <rect x="280" y="226" width="1040" height="54" class="note"/>
+  <text x="800" y="259" class="note-text">Hai hệ thống dùng database riêng; mọi trao đổi liên hệ thống đi qua HTTP API</text>
+
+  <line x1="290" y1="330" x2="800" y2="330" class="request"/>
+  <text x="545" y="311" class="message">POST /api/v1/similarity/scans</text>
+  <text x="545" y="355" class="detail">X-API-Key · Content-Type: application/json</text>
+
+  <rect x="180" y="375" width="1240" height="300" class="code-box"/>
+  <text x="210" y="408" class="code-title">Request body (JSON)</text>
+  <text x="210" y="440" class="code-text">{</text>
+  <text x="210" y="460" class="code-text" xml:space="preserve">  "assignment_id": "BT01",</text>
+  <text x="210" y="480" class="code-text" xml:space="preserve">  "language": "python",</text>
+  <text x="210" y="500" class="code-text" xml:space="preserve">  "template_code": "def solve():\n    pass",</text>
+  <text x="210" y="520" class="code-text" xml:space="preserve">  "submissions": [</text>
+  <text x="210" y="540" class="code-text" xml:space="preserve">    {</text>
+  <text x="210" y="560" class="code-text" xml:space="preserve">      "submission_id": "sub_001",</text>
+  <text x="210" y="580" class="code-text" xml:space="preserve">      "student_id": "SV01",</text>
+  <text x="210" y="600" class="code-text" xml:space="preserve">      "source_code": "..."</text>
+  <text x="210" y="620" class="code-text" xml:space="preserve">    }</text>
+  <text x="210" y="640" class="code-text" xml:space="preserve">  ]</text>
+  <text x="210" y="660" class="code-text">}</text>
+
+  <g transform="translate(0 300)">
+
+  <path d="M 800 395 H 965 V 440 H 810" fill="none" class="internal"/>
+  <text x="895" y="385" class="message">Xác thực API key</text>
+  <text x="895" y="462" class="detail">và kiểm tra request</text>
+
+  <rect x="55" y="490" width="1490" height="630" class="frame"/>
+  <path d="M 55 490 H 210 L 194 520 H 55 Z" class="frame-label"/>
+  <text x="72" y="511" class="frame-label-text">alt POST</text>
+  <text x="80" y="554" class="branch-label">[Tiếp nhận thành công]</text>
+
+  <line x1="800" y1="600" x2="1310" y2="600" class="internal"/>
+  <text x="1055" y="580" class="message">Tạo tác vụ và cấp scan_id</text>
+
+  <line x1="800" y1="665" x2="290" y2="665" class="response"/>
+  <text x="545" y="645" class="message">202 Accepted</text>
+  <rect x="350" y="690" width="500" height="140" class="code-box"/>
+  <text x="375" y="718" class="code-title">Response body (202 Accepted)</text>
+  <text x="375" y="745" class="code-text">{</text>
+  <text x="375" y="765" class="code-text" xml:space="preserve">  "scan_id": "scan_2026_001",</text>
+  <text x="375" y="785" class="code-text" xml:space="preserve">  "status": "processing"</text>
+  <text x="375" y="805" class="code-text">}</text>
+
+  <g transform="translate(0 140)">
+
+  <line x1="55" y1="730" x2="1545" y2="730" class="separator"/>
+  <text x="80" y="760" class="branch-label">[Request không hợp lệ hoặc xung đột]</text>
+  <line x1="800" y1="797" x2="290" y2="797" class="error"/>
+  <text x="545" y="780" class="message">400 / 409 / 413 / 415</text>
+  <text x="545" y="824" class="detail">Body lỗi và ánh xạ validation chưa được quy định</text>
+
+  <line x1="55" y1="854" x2="1545" y2="854" class="separator"/>
+  <text x="80" y="884" class="branch-label">[Xác thực, phân quyền, giới hạn hoặc lỗi dịch vụ]</text>
+  <line x1="800" y1="923" x2="290" y2="923" class="error"/>
+  <text x="545" y="906" class="message">401 / 403 / 429 / 500 / 503</text>
+  <text x="545" y="949" class="detail">Error body chưa được quy định</text>
+
+  <rect x="55" y="1010" width="1490" height="310" class="frame"/>
+  <path d="M 55 1010 H 225 L 209 1040 H 55 Z" class="frame-label"/>
+  <text x="72" y="1031" class="frame-label-text">par bất đồng bộ</text>
+  <text x="80" y="1073" class="branch-label">[Tác vụ quét chạy nền]</text>
+
+  <path d="M 1310 1112 H 1460 V 1153 H 1320" fill="none" class="internal"/>
+  <text x="1385" y="1100" class="message">Phân tích bài nộp</text>
+
+  <path d="M 1310 1204 H 1460 V 1245 H 1320" fill="none" class="internal"/>
+  <text x="1385" y="1192" class="message">Lưu trạng thái</text>
+  <text x="1385" y="1270" class="detail">và kết quả</text>
+
+  <text x="80" y="1302" class="branch-label">[Đồng thời Nhóm 1.2 có thể chủ động truy vấn]</text>
+
+  <rect x="55" y="1350" width="1490" height="1020" class="frame"/>
+  <path d="M 55 1350 H 185 L 169 1380 H 55 Z" class="frame-label"/>
+  <text x="72" y="1371" class="frame-label-text">loop polling</text>
+  <text x="205" y="1371" class="legend">khi status = "processing"; chu kỳ chưa được quy định</text>
+
+  <line x1="290" y1="1430" x2="800" y2="1430" class="request"/>
+  <text x="545" y="1410" class="message">GET /api/v1/similarity/scans/{scan_id}</text>
+  <text x="545" y="1456" class="detail">X-API-Key · không có request body</text>
+
+  <text x="80" y="1502" class="branch-label">[Tác vụ còn xử lý]</text>
+  <line x1="800" y1="1538" x2="290" y2="1538" class="response"/>
+  <text x="545" y="1521" class="message">200 OK · { scan_id, status: "processing" }</text>
+
+  <line x1="55" y1="1570" x2="1545" y2="1570" class="separator"/>
+  <text x="80" y="1602" class="branch-label">[Tác vụ hoàn tất]</text>
+  <line x1="800" y1="1638" x2="290" y2="1638" class="response"/>
+  <text x="545" y="1621" class="message">200 OK · { scan_id, status: "done", results[] }</text>
+
+  <rect x="180" y="1675" width="1240" height="420" class="code-box"/>
+  <text x="210" y="1708" class="code-title">Response body (ví dụ)</text>
+  <text x="210" y="1740" class="code-text">{</text>
+  <text x="210" y="1760" class="code-text" xml:space="preserve">  "scan_id": "scan_2026_001",</text>
+  <text x="210" y="1780" class="code-text" xml:space="preserve">  "status": "done",</text>
+  <text x="210" y="1800" class="code-text" xml:space="preserve">  "results": [</text>
+  <text x="210" y="1820" class="code-text" xml:space="preserve">    {</text>
+  <text x="210" y="1840" class="code-text" xml:space="preserve">      "submission_id": "sub_001",</text>
+  <text x="210" y="1860" class="code-text" xml:space="preserve">      "student_id": "SV01",</text>
+  <text x="210" y="1880" class="code-text" xml:space="preserve">      "max_similarity": 86.5,</text>
+  <text x="210" y="1900" class="code-text" xml:space="preserve">      "matched_with_submission_id": "sub_014",</text>
+  <text x="210" y="1920" class="code-text" xml:space="preserve">      "matched_lines": [{ "from_line": 12, "to_line": 34 }],</text>
+  <text x="210" y="1940" class="code-text" xml:space="preserve">      "ai_explanation": "Hai bài giống cấu trúc hàm đệ quy ở dòng 12-34...",</text>
+  <text x="210" y="1960" class="code-text" xml:space="preserve">      "risk_level": "high",</text>
+  <text x="210" y="1980" class="code-text" xml:space="preserve">      "report_url": "http://&lt;dia-chi-nhom-1.1&gt;/reports/scan_2026_001/sub_001"</text>
+  <text x="210" y="2000" class="code-text" xml:space="preserve">    }</text>
+  <text x="210" y="2020" class="code-text" xml:space="preserve">  ]</text>
+  <text x="210" y="2040" class="code-text">}</text>
+
+  <line x1="55" y1="2130" x2="1545" y2="2130" class="separator"/>
+  <text x="80" y="2162" class="branch-label">[Lỗi xác thực, phân quyền hoặc không tìm thấy scan]</text>
+  <line x1="800" y1="2198" x2="290" y2="2198" class="error"/>
+  <text x="545" y="2181" class="message">401 Unauthorized / 403 Forbidden / 404 Not Found</text>
+
+  <line x1="55" y1="2230" x2="1545" y2="2230" class="separator"/>
+  <text x="80" y="2262" class="branch-label">[Giới hạn hoặc lỗi dịch vụ]</text>
+  <line x1="800" y1="2298" x2="290" y2="2298" class="error"/>
+  <text x="545" y="2281" class="message">429 Too Many Requests / 500 / 503</text>
+  <text x="545" y="2325" class="detail">Error body chưa được quy định</text>
+
+  <rect x="260" y="2400" width="1080" height="78" class="note"/>
+  <text x="800" y="2430" class="note-text">Contract chưa định nghĩa status/body khi tác vụ quét nền thất bại.</text>
+  <text x="800" y="2457" class="note-text">Sơ đồ không tự bổ sung trạng thái “failed”, callback/webhook hoặc chu kỳ polling.</text>
+
+  <line x1="110" y1="2515" x2="170" y2="2515" class="request"/>
+  <text x="185" y="2521" class="legend">HTTP request</text>
+  <line x1="370" y1="2515" x2="430" y2="2515" class="response"/>
+  <text x="445" y="2521" class="legend">HTTP success response</text>
+  <line x1="730" y1="2515" x2="790" y2="2515" class="internal"/>
+  <text x="805" y="2521" class="legend">Xử lý nội bộ Nhóm 1.1</text>
+  <line x1="1130" y1="2515" x2="1190" y2="2515" class="error"/>
+  <text x="1205" y="2521" class="legend">HTTP error response</text>
+  <text x="800" y="2560" class="subtitle" text-anchor="middle">Nguồn: docs/api/API_CONTRACT.md · File chỉnh sửa: inter-system-api-workflow-sequence.mmd</text>
+  </g>
+  </g>
+</svg>
