@@ -1,0 +1,49 @@
+%% Sequence diagram for the HTTP integration between Group 1.2 and Group 1.1.
+%% Source of truth: ../API_CONTRACT.md and ../api-scans-sample.json.
+%% The diagram intentionally does not invent an error body, a failed scan status,
+%% a polling interval, or callback/webhook behavior that the contract does not define.
+sequenceDiagram
+    autonumber
+    actor N12 as Nhóm 1.2<br/>AI Code Assessment
+    participant API as Nhóm 1.1<br/>Similarity HTTP API
+    participant SCAN as Nhóm 1.1<br/>Tác vụ quét bất đồng bộ
+
+    Note over N12,API: Hai hệ thống dùng database riêng; mọi trao đổi liên hệ thống đi qua HTTP API
+    N12->>API: POST /api/v1/similarity/scans<br/>X-API-Key, Content-Type: application/json
+    Note over N12,API: Request body (JSON)<br/>{<br/>  "assignment_id": "BT01",<br/>  "language": "python",<br/>  "template_code": "def solve():\n    pass",<br/>  "submissions": [<br/>    {<br/>      "submission_id": "sub_001",<br/>      "student_id": "SV01",<br/>      "source_code": "..."<br/>    }<br/>  ]<br/>}
+    API->>API: Xác thực API key và kiểm tra request
+
+    alt Tiếp nhận thành công
+        API->>SCAN: Tạo tác vụ và cấp scan_id
+        API-->>N12: 202 Accepted<br/>{scan_id, status: "processing"}
+        Note over N12,API: Response body (202 Accepted)<br/>{<br/>  "scan_id": "scan_2026_001",<br/>  "status": "processing"<br/>}
+
+        par Xử lý quét bất đồng bộ
+            SCAN->>SCAN: Phân tích các bài nộp
+            SCAN->>SCAN: Lưu trạng thái và kết quả
+        and Nhóm 1.2 chủ động truy vấn
+            loop Khi response còn status = "processing"<br/>(chu kỳ polling chưa được quy định)
+                N12->>API: GET /api/v1/similarity/scans/{scan_id}<br/>X-API-Key; không có request body
+                alt Tác vụ còn xử lý
+                    API-->>N12: 200 OK<br/>{scan_id, status: "processing"}
+                else Tác vụ hoàn tất
+                    API-->>N12: 200 OK<br/>{scan_id, status: "done", results[]}
+                    Note over N12,API: Response body (ví dụ)<br/>{<br/>  "scan_id": "scan_2026_001",<br/>  "status": "done",<br/>  "results": [<br/>    {<br/>      "submission_id": "sub_001",<br/>      "student_id": "SV01",<br/>      "max_similarity": 86.5,<br/>      "matched_with_submission_id": "sub_014",<br/>      "matched_lines": [{ "from_line": 12, "to_line": 34 }],<br/>      "ai_explanation": "Hai bài giống cấu trúc hàm đệ quy ở dòng 12-34...",<br/>      "risk_level": "high",<br/>      "report_url": "http://&lt;dia-chi-nhom-1.1&gt;/reports/scan_2026_001/sub_001"<br/>    }<br/>  ]<br/>}
+                else Thiếu/sai API key hoặc không có quyền
+                    API-->>N12: 401 Unauthorized / 403 Forbidden<br/>Error body chưa được quy định
+                else Không tìm thấy scan_id
+                    API-->>N12: 404 Not Found<br/>Error body chưa được quy định
+                else Giới hạn hoặc lỗi dịch vụ
+                    API-->>N12: 429 / 500 / 503<br/>Error body chưa được quy định
+                end
+            end
+        end
+    else Request không hợp lệ hoặc xung đột
+        API-->>N12: 400 / 409 / 413 / 415<br/>Error body và ánh xạ validation chưa được quy định
+    else Lỗi xác thực hoặc phân quyền
+        API-->>N12: 401 Unauthorized / 403 Forbidden<br/>Error body chưa được quy định
+    else Giới hạn hoặc lỗi dịch vụ
+        API-->>N12: 429 / 500 / 503<br/>Error body chưa được quy định
+    end
+
+    Note over N12,SCAN: Contract hiện chưa định nghĩa status/body khi tác vụ quét nền thất bại; sơ đồ không tự bổ sung trạng thái failed
