@@ -1,0 +1,91 @@
+{
+  "post_scan": {
+    "request": {
+      "method": "POST",
+      "path": "/api/v1/similarity/scans",
+      "headers": {
+        "Content-Type": "application/json",
+        "X-API-Key": "REPLACE_WITH_API_KEY"
+      },
+      "body": {
+        "assignment_id": "BT01",
+        "language": "python",
+        "template_code": "import sys\n",
+        "submissions": [
+          {
+            "submission_id": "sub_001",
+            "student_id": "SV01",
+            "source_code": "import sys\n\ndef square(n):\n    return n * n\n"
+          },
+          {
+            "submission_id": "sub_014",
+            "student_id": "SV14",
+            "source_code": "import sys\n\ndef square(value):\n    return value * value\n"
+          }
+        ]
+      }
+    },
+    "response": {
+      "http_status": 202,
+      "body": {
+        "scan_id": "scan_2026_001",
+        "status": "processing"
+      }
+    }
+  },
+  "get_scan": {
+    "request": {
+      "method": "GET",
+      "path": "/api/v1/similarity/scans/scan_2026_001",
+      "headers": {
+        "X-API-Key": "REPLACE_WITH_API_KEY"
+      }
+    },
+    "processing_response": {
+      "http_status": 200,
+      "body": {
+        "scan_id": "scan_2026_001",
+        "status": "processing"
+      }
+    },
+    "response": {
+      "http_status": 200,
+      "body": {
+        "scan_id": "scan_2026_001",
+        "status": "done",
+        "results": [
+          {
+            "submission_id": "sub_001",
+            "student_id": "SV01",
+            "max_similarity": 86.5,
+            "matched_with_submission_id": "sub_014",
+            "matched_lines": [
+              {
+                "from_line": 3,
+                "to_line": 4
+              }
+            ],
+            "ai_explanation": "Hai bài cùng định nghĩa hàm tính bình phương ở dòng 3-4; bài được đối chiếu đổi tên tham số.",
+            "risk_level": "high",
+            "report_url": "https://example.com/reports/scan_2026_001/sub_001"
+          },
+          {
+            "submission_id": "sub_014",
+            "student_id": "SV14",
+            "max_similarity": 86.5,
+            "matched_with_submission_id": "sub_001",
+            "matched_lines": [
+              {
+                "from_line": 3,
+                "to_line": 4
+              }
+            ],
+            "ai_explanation": "Hai bài cùng định nghĩa hàm tính bình phương ở dòng 3-4; bài này đổi tên tham số.",
+            "risk_level": "high",
+            "report_url": "https://example.com/reports/scan_2026_001/sub_014"
+          }
+        ]
+      }
+    }
+  }
+}
