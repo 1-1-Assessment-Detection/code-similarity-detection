@@ -6,18 +6,18 @@ Tài liệu tổng hợp kết quả thực nghiệm Tuần 1 trên bài mẫu [
 
 ## 1. Dữ liệu đầu vào
 
-- Bộ dữ liệu mẫu (#2, nhánh `datasets/week-01`, commit cuối `8f2e750`, đã merge vào `main` qua PR #12 tại commit `c224034`): gồm 5 bài tự viết (`ORIG-01` đến `ORIG-05`), 5 bài sao chép theo 4 mức (`COPY-01` đến `COPY-05`) và file nhãn [`ground-truth.csv`](../../../datasets/week-01/ground-truth.csv). Trong 45 cặp có 5 cặp sao chép (1 cặp Mức 1, 1 cặp Mức 2, 2 cặp Mức 3, 1 cặp Mức 4) và 40 cặp không sao chép.
-- Kết quả so khớp văn bản (#3, nhánh `feature/week-01-text-based`, commit `8aafc83`): lấy từ [`results.csv`](../../../experiments/week-01/text-based/results.csv) và [`README.md`](../../../experiments/week-01/text-based/README.md).
-- Kết quả hỏi trực tiếp AI (#4, nhánh `feature/direct-ai-experiment`, commit `12cb179`): lấy từ [`results.csv`](../../../experiments/week-01/direct-ai/results.csv), [`prompt.md`](../../../experiments/week-01/direct-ai/prompt.md), [`README.md`](../../../experiments/week-01/direct-ai/README.md) và 45 file phản hồi gốc trong `responses/`.
+- Bộ dữ liệu mẫu (#2): gồm 5 bài tự viết (`ORIG-01` đến `ORIG-05`), 5 bài sao chép theo 4 mức (`COPY-01` đến `COPY-05`) và file nhãn [`ground-truth.csv`](../../../datasets/week-01/ground-truth.csv). Trong 45 cặp có 5 cặp sao chép (1 cặp Mức 1, 1 cặp Mức 2, 2 cặp Mức 3, 1 cặp Mức 4) và 40 cặp không sao chép.
+- Kết quả so khớp văn bản (#3): lấy từ [`results.csv`](../../../experiments/week-01/text-based/results.csv) và [`README.md`](../../../experiments/week-01/text-based/README.md).
+- Kết quả hỏi trực tiếp AI (#4): lấy từ [`results.csv`](../../../experiments/week-01/direct-ai/results.csv), [`prompt.md`](../../../experiments/week-01/direct-ai/prompt.md), [`README.md`](../../../experiments/week-01/direct-ai/README.md) và 45 file phản hồi gốc trong `responses/`.
 
 ### Ghi chú về lệch phiên bản dữ liệu
 
-Khi kiểm tra lại commit giữa #2, #3 và #4 thì thấy hai phương pháp đang đo trên hai bản dữ liệu khác nhau:
+Khi kiểm tra lại dữ liệu giữa #2, #3 và #4 thì thấy hai phương pháp đang đo trên hai phiên bản hơi khác nhau của file `copied/copy-01-level-1.py`:
 
-- Trên nhánh `datasets/week-01`, commit `8f2e750` đã xóa dòng comment `# Same code; only whitespace and this comment were changed.` trong `copied/copy-01-level-1.py` (file giảm từ 429 xuống 370 ký tự khi chuẩn hóa LF).
-- Thực nghiệm #4 chạy trên bản mới `8f2e750`. Còn #3 dù đã có commit mới `8aafc83` cũng chỉ đổi tên nhãn trong CSV sang tiếng Việt, số đo vẫn chạy trên bản cũ `c11949a` khi vẫn còn dòng comment này, nên cặp `ORIG-01 / COPY-01` có khoảng cách Levenshtein là 96 (điểm 0,776224).
-- Khi tính thử lại Levenshtein theo đúng công thức của #3 trên bản `8f2e750`, cặp `ORIG-01 / COPY-01` giảm khoảng cách còn 37 (điểm 0,900000, vượt ngưỡng 0,80) và 8 cặp không sao chép còn lại có chứa `copied/copy-01-level-1.py` đều dưới 0,80 (cao nhất 0,601078 với `original/solution-05.py`) nên không phát sinh thêm báo nhầm.
-- Các bảng bên dưới vẫn giữ số chính thức từ `results.csv` của #3; cần báo bên #3 chạy lại trên `main` hiện tại để hai phương pháp dùng cùng một bộ file.
+- Bản bộ mẫu mới nhất đã xóa dòng comment `# Same code; only whitespace and this comment were changed.` trong `copied/copy-01-level-1.py` để tránh lộ gợi ý cho AI (độ dài file giảm từ 429 xuống 370 ký tự khi chuẩn hóa LF).
+- Thực nghiệm #4 chạy trên bản mới đã xóa comment này. Còn số liệu trong `results.csv` của #3 vẫn giữ kết quả chạy trên bản trước đó khi vẫn còn dòng comment, nên cặp `ORIG-01 / COPY-01` có khoảng cách Levenshtein là 96 (điểm 0,776224).
+- Khi tính thử lại Levenshtein theo đúng công thức của #3 trên bản mới đã xóa comment, cặp `ORIG-01 / COPY-01` giảm khoảng cách còn 37 (điểm 0,900000, vượt ngưỡng 0,80) và 8 cặp không sao chép còn lại có chứa `copied/copy-01-level-1.py` đều dưới 0,80 (cao nhất 0,601078 với `original/solution-05.py`) nên không phát sinh thêm báo nhầm.
+- Các bảng bên dưới vẫn giữ đúng số chính thức từ `results.csv` của #3; cần báo bên #3 chạy lại trên bản bộ mẫu mới nhất để hai phương pháp dùng cùng một bộ file.
 
 ## 2. Kết quả phương pháp so khớp văn bản (#3)
 
@@ -47,7 +47,7 @@ Chương trình C# của #3 đọc nguyên văn 10 file UTF-8, chỉ đổi xu�
 
 Các chỉnh sửa trong 5 bản sao:
 
-- **ORIG-01 / COPY-01 (Mức 1):** chỉ thêm 1 dòng comment (ở bản `c11949a`) và tách 2 câu lệnh `if`, `for` viết 1 dòng ra thành nhiều dòng.
+- **ORIG-01 / COPY-01 (Mức 1):** chỉ thêm 1 dòng comment (ở bản cũ) và tách 2 câu lệnh `if`, `for` viết 1 dòng ra thành nhiều dòng.
 - **ORIG-02 / COPY-02 (Mức 2):** logic sàng số lẻ không đổi nhưng đổi hết tên tham số và biến cục bộ (`n` -> `limit`, `crossed` -> `composite_flags`, `p` -> `divisor`...), cộng thêm tách dòng ở lệnh `if`.
 - **ORIG-03 / COPY-03 (Mức 3):** sửa nhiều vòng lặp (vòng sàng cơ sở đổi `for` -> `while`, vòng duyệt block đổi `while` -> `for`, đoạn gán slice chuyển sang `for` đánh dấu từng phần tử), đồng thời đổi tên biến (`sieve` -> `base`, `segment` -> `chunk`).
 - **ORIG-04 / COPY-04 (Mức 3):** sửa ít nhất trong nhóm Mức 3, chỉ đổi vòng `for value in range(2, n)` ngoài cùng thành `while value < n` với `value += 1`, phần còn lại gần như y nguyên.
@@ -56,7 +56,7 @@ Các chỉnh sửa trong 5 bản sao:
 ### 2.3. Thống kê 40 cặp không sao chép
 
 - Cả 40 cặp đều được xếp đúng là TN ở cả 3 cách đo (không có báo nhầm ở ngưỡng 0,80).
-- Điểm Levenshtein của nhóm này dao động từ 0,263158 đến 0,638814, trung bình 0,420041 (tính theo bản cũ `c11949a`; nếu chạy lại trên `8f2e750` thì cặp `copied/copy-01-level-1.py` / `original/solution-05.py` tăng lên 0,601078 và nhảy từ hạng 5 lên hạng 2).
+- Điểm Levenshtein của nhóm này dao động từ 0,263158 đến 0,638814, trung bình 0,420041 (tính theo bản bộ mẫu cũ; nếu chạy lại trên bản đã xóa comment thì `copied/copy-01-level-1.py` / `original/solution-05.py` tăng lên 0,601078 vào hạng 2 và `copied/copy-01-level-1.py` / `copied/copy-05-level-4.py` tăng lên 0,593750 đồng hạng 3, đẩy `original/solution-01.py` / `original/solution-02.py` ra khỏi Top 5).
 - 5 cặp không sao chép có điểm Levenshtein cao nhất:
 
 | Cặp bài                                                 | Dist | Điểm Lev. | So với cặp Mức 4 (0,552083) |
@@ -67,14 +67,15 @@ Các chỉnh sửa trong 5 bản sao:
 | `original/solution-01.py` / `original/solution-02.py`   | 206  | 0,537079  | Thấp hơn                    |
 | `copied/copy-01-level-1.py` / `original/solution-05.py` | 208  | 0,515152  | Thấp hơn                    |
 
-Trong nhóm này có 3 cặp không sao chép đạt điểm cao hơn cặp Mức 4 (`ORIG-05 / COPY-05`, 0,552083), thậm chí `copied/copy-05-level-4.py` còn có điểm văn bản gần `original/solution-01.py` hơn cả bài gốc `original/solution-05.py`. Điểm này sẽ được phân tích kỹ hơn ở bước đối chiếu và giải thích nguyên nhân sai.
+Trong nhóm này có 3 cặp không sao chép đạt điểm cao hơn cặp Mức 4 (`ORIG-05 / COPY-05`, 0,552083), thậm chí `copied/copy-05-level-4.py` còn có điểm văn bản gần `original/solution-01.py` hơn cả bài gốc `original/solution-05.py`.
 
 ## 3. Kết quả phương pháp hỏi trực tiếp AI (#4)
 
 Thực nghiệm #4 chạy ngày 2026-11-27 qua OpenRouter trên model `nvidia/nemotron-3-ultra-550b-a55b:free` (cỡ 550B tham số). Chương trình dùng prompt thô `v1` (chưa có JSON schema, Tool Calling hay vòng tự kiểm tra), giữ temperature mặc định và chỉ chạy 1 lượt duy nhất. Trước đó nhóm thử `google/gemma-4-31b-it:free` nhưng bị lỗi HTTP 429 ngay cặp đầu nên phải đổi sang nemotron.
 
-Chương trình C# chạy tuần tự từng cặp, không chèn thời gian nghỉ (`delay`) giữa các lượt và không tự gọi lại khi gặp HTTP 429; cột `latency_seconds` đo trực tiếp thời gian phản hồi API của từng cặp bằng `Stopwatch`. Mỗi cặp được gửi trong một lượt hỏi riêng và chỉ chứa nội dung code (không đưa tên file hay đáp án). 
-Prompt `v1` chỉ hỏi bài B có phải được sao chép/viết lại từ bài A (hoặc ngược lại) hay không, yêu cầu trả 3 dòng `KET_LUAN`, `DIEM_GIONG` (0-100) và `GIAI_THICH` (nêu rõ hàm nào, dòng nào, chỉnh sửa kiểu gì) mà không định nghĩa thang điểm hay tiêu chí phân biệt trùng thuật toán phổ biến. Nhãn `copy` / `not_copy` do AI tự kết luận trực tiếp ở dòng `KET_LUAN`, không áp ngưỡng cứng trên điểm `DIEM_GIONG` như ngưỡng 0,80 ở Mục 2. Mã cặp `P01`-`P45` do script #4 tự đánh số khi ghép cặp theo thứ tự bảng chữ cái của tên file.
+Chương trình C# chạy tuần tự từng cặp, không chèn thời gian nghỉ (`delay`) giữa các lượt và không tự gọi lại khi gặp HTTP 429; cột `latency_seconds` đo trực tiếp thời gian phản hồi API của từng cặp bằng `Stopwatch`. Mã cặp `P01`-`P45` do script #4 tự đánh số khi ghép cặp theo thứ tự bảng chữ cái của tên file.
+
+Mỗi cặp được gửi trong một lượt hỏi riêng và chỉ chứa nội dung code (không đưa tên file hay đáp án). Prompt `v1` chỉ hỏi bài B có phải được sao chép/viết lại từ bài A (hoặc ngược lại) hay không, yêu cầu trả 3 dòng `KET_LUAN`, `DIEM_GIONG` (0-100) và `GIAI_THICH` (nêu rõ hàm nào, dòng nào, chỉnh sửa kiểu gì) mà không định nghĩa thang điểm hay tiêu chí phân biệt trùng thuật toán phổ biến. Nhãn `copy` / `not_copy` do AI tự kết luận trực tiếp ở dòng `KET_LUAN`, không áp ngưỡng cứng trên điểm `DIEM_GIONG` như ngưỡng 0,80 ở Mục 2.
 
 ### 3.1. Kết quả tổng hợp và 5 cặp sao chép
 
@@ -107,3 +108,63 @@ Trên cả 45 cặp, AI kết luận đúng **5 TP, 40 TN, 0 FP, 0 FN**; cả 45
 - Tổng thời gian phản hồi API cho 45 cặp là 1.283,63 giây (~21,4 phút), trung bình 28,53 giây/cặp. Nhanh nhất là `P38` (`original/solution-01.py` / `original/solution-04.py`, 5 điểm) mất 10,49 giây; chậm nhất là `P23` (`copied/copy-03-level-3.py` / `original/solution-04.py`, 5 điểm) mất 65,27 giây.
 - Tổng token: 23.850 đầu vào (~530 token/cặp) và 37.123 đầu ra (~825 token/cặp), tổng 60.973 token. Lượng token đầu ra gấp khoảng 1,56 lần đầu vào dù câu trả lời chỉ gồm 3 mục ngắn; log của #4 không tách riêng trường `reasoning_tokens` nên chưa xác nhận trực tiếp, nhưng nhiều khả năng model tính cả phần suy luận ngầm vào output token.
 - Lượt chạy này không mất tiền vì dùng bản `:free` trên OpenRouter, nhưng con số 0 đồng không phản ánh chi phí chạy API thương mại (chưa kể giới hạn lượt như lỗi HTTP 429 ở trên). Các vấn đề về độ trễ khi tăng số lượng bài nộp trong lớp và chất lượng giải thích trong `responses/` sẽ được phân tích ở các bước tiếp theo.
+
+## 4. Đối chiếu hai phương pháp và so sánh theo 4 mức độ
+
+Nhãn kết quả của #3 (`Phát hiện đúng`, `Loại đúng`, `Bỏ sót`, `Báo nhầm`) và #4 (`correct`, `false_positive`, `missed`) được quy đổi về chung 4 nhóm TP, TN, FP, FN, trong đó nhãn `correct` của #4 được tách thành TP (với 5 cặp sao chép) và TN (với 40 cặp không sao chép) dựa trên `ground-truth.csv`. Mã cặp `P01`-`P45` của #4 được dùng làm mã định danh chung khi ghép 45 cặp.
+
+### 4.1. Bảng tổng hợp đối chiếu trên 45 cặp
+
+| Phương pháp                 | Điều kiện / Cấu hình                       | TP | TN | FP | FN | Tỷ lệ phát hiện | Thời gian (45 cặp)         | Token / chi phí           |
+| --------------------------- | ------------------------------------------ | -- | -- | -- | -- | --------------- | -------------------------- | ------------------------- |
+| `string.Equals` (#3)        | Khớp toàn bộ chuỗi (`Ordinal`)             | 0  | 40 | 0  | 5  | 0% (0/5)        | Chưa đo trong thực nghiệm  | Không dùng API            |
+| `string.Contains` (#3)      | A chứa B hoặc B chứa A (`Ordinal`)         | 0  | 40 | 0  | 5  | 0% (0/5)        | Chưa đo trong thực nghiệm  | Không dùng API            |
+| Levenshtein (#3)            | `(max_len - dist) / max_len >= 0,80`       | 1  | 40 | 0  | 4  | 20% (1/5)       | Chưa đo trong thực nghiệm  | Không dùng API            |
+| Hỏi trực tiếp AI `v1` (#4)  | `nemotron-3-ultra-550b-a55b:free` (1 lượt) | 5  | 40 | 0  | 0  | 100% (5/5)      | 1.283,63 giây (~21,4 phút) | 60.973 token (bản `:free`)|
+
+Tỷ lệ báo nhầm (FPR) của cả 4 cách đo trên 40 cặp không sao chép đều là 0%. Nếu #3 chạy lại trên bản bộ mẫu mới đã xóa comment (cùng bản dữ liệu với #4), dòng Levenshtein tăng lên **2 TP, 40 TN, 0 FP, 3 FN (tỷ lệ phát hiện 40%, tức 2/5)** do `P05` (`ORIG-01 / COPY-01`) đạt 0,900000; các phương pháp còn lại giữ nguyên.
+
+### 4.2. Phân loại kết quả và so sánh theo 4 mức độ sao chép
+
+| Mã cặp | Cặp bài           | Mức | Equals (#3) | Contains (#3) | Levenshtein (#3) | Direct AI `v1` (#4) |
+| ------ | ----------------- | --- | ----------- | ------------- | ---------------- | ------------------- |
+| P05    | ORIG-01 / COPY-01 | 1   | FN          | FN            | FN (0,776224)    | TP (99/100)         |
+| P14    | ORIG-02 / COPY-02 | 2   | FN          | FN            | FN (0,646774)    | TP (95/100)         |
+| P22    | ORIG-03 / COPY-03 | 3   | FN          | FN            | FN (0,661793)    | TP (90/100)         |
+| P29    | ORIG-04 / COPY-04 | 3   | FN          | FN            | TP (0,892934)    | TP (95/100)         |
+| P35    | ORIG-05 / COPY-05 | 4   | FN          | FN            | FN (0,552083)    | TP (95/100)         |
+| 40 cặp | Không sao chép    | -   | 40 TN, 0 FP | 40 TN, 0 FP   | 40 TN, 0 FP      | 40 TN, 0 FP         |
+
+Phân loại theo kết quả trên đủ 45 cặp:
+
+- **Phát hiện đúng (TP):** `Equals` và `Contains` đạt 0/5; Levenshtein bắt được duy nhất `P29` (`ORIG-04 / COPY-04`); Direct AI `v1` bắt đủ cả 5 cặp (`P05`, `P14`, `P22`, `P29`, `P35`).
+- **Bỏ sót (FN):** `Equals` và `Contains` bỏ sót cả 5 cặp; Levenshtein bỏ sót 4 cặp (`P05`, `P14`, `P22`, `P35`); Direct AI `v1` không bỏ sót cặp nào.
+- **Loại đúng (TN) và báo nhầm (FP):** tất cả các cách đo đều đạt 40/40 TN và 0 FP trên bộ mẫu này.
+
+Tỷ lệ phát hiện theo từng mức độ sao chép (Levenshtein so với Direct AI `v1`, còn `Equals` và `Contains` đều 0/5 ở cả 4 mức):
+
+- **Mức 1:** Levenshtein 0/1 (bản đã xóa comment đạt 1/1 với 0,900000) vs AI 1/1 (99/100).
+- **Mức 2:** Levenshtein 0/1 (0,646774) vs AI 1/1 (95/100).
+- **Mức 3:** Levenshtein 1/2 (`P22` 0,661793 bị sót, `P29` 0,892934 bắt được) vs AI 2/2 (90 và 95/100).
+- **Mức 4:** Levenshtein 0/1 (0,552083) vs AI 1/1 (95/100).
+
+Điểm Levenshtein không giảm đơn điệu theo mức độ sao chép: cả hai cặp Mức 3 (`0,661793` và `0,892934`) đều cao hơn cặp Mức 2 (`0,646774`), trong khi điểm của Direct AI `v1` giữ ổn định trong khoảng 90-99/100 trên cả 4 mức.
+
+### 4.3. Đối chiếu cụm cặp không sao chép có điểm cao nhất
+
+Bảng dưới gộp 7 cặp không sao chép thuộc Top 5 Levenshtein (Mục 2.3) hoặc có điểm AI từ 30 trở lên (Mục 3.2); cả 7 cặp đều cho kết quả TN ở cả hai phương pháp. Với Levenshtein (#3), bảng giữ cột **bản cũ** (số chính thức từ `results.csv` của #3) cạnh cột **bản mới** (sau khi xóa dòng comment `# Same code; only whitespace and this comment were changed.` ở `copied/copy-01-level-1.py`, cùng bản #4 chạy):
+
+| Mã cặp | Cặp bài                                                   | Levenshtein (bản cũ) | Levenshtein (bản mới) | Direct AI `v1` (#4) |
+| ------ | --------------------------------------------------------- | -------------------- | --------------------- | ------------------- |
+| P39    | `original/solution-01.py` / `original/solution-05.py`     | 0,638814             | Không đổi             | 40/100              |
+| P31    | `copied/copy-05-level-4.py` / `original/solution-01.py`   | 0,593750             | Không đổi             | 30/100              |
+| P42    | `original/solution-02.py` / `original/solution-05.py`     | 0,573034             | Không đổi             | 35/100              |
+| P36    | `original/solution-01.py` / `original/solution-02.py`     | 0,537079             | Không đổi             | 15/100              |
+| P09    | `copied/copy-01-level-1.py` / `original/solution-05.py`   | 0,515152             | 0,601078              | 35/100              |
+| P32    | `copied/copy-05-level-4.py` / `original/solution-02.py`   | 0,481250             | Không đổi             | 30/100              |
+| P04    | `copied/copy-01-level-1.py` / `copied/copy-05-level-4.py` | 0,468750             | 0,593750              | 35/100              |
+
+Nhìn từ khoảng phân tách điểm giữa 5 cặp sao chép và 40 cặp không sao chép:
+
+- Với Levenshtein (#3), khoảng điểm sao chép (0,552083 - 0,892934) và không sao chép (0,263158 - 0,638814) bị chồng lấn ở Mức 4: trên bản bộ mẫu cũ có 3 cặp không sao chép (`P39`, `P31`, `P42`) vượt điểm cặp Mức 4 `P35` (0,552083); trên bản đã xóa comment có thêm `P09` (0,601078) và `P04` (0,593750) cùng vượt `P35` (tổng 5 cặp).
+- Với Direct AI `v1` (#4), hai nhóm cách nhau 50 điểm (nhóm không sao chép cao nhất 40/100 ở `P39`, nhóm sao chép thấp nhất 90/100 ở `P22`). Hai phương pháp có cùng cặp đứng đầu nhóm không sao chép là `P39` (`original/solution-01.py` / `original/solution-05.py`), nhưng ngược chiều về thứ tự điểm giữa `P36` (Levenshtein 0,537079, AI 15/100) và `P32` (Levenshtein 0,481250, AI 30/100) - lưu ý rằng điểm AI chỉ là ước lượng theo bội số 5 không có rubric cố định nên sự chênh lệch này mới mang tính tham khảo. Nguyên nhân của các ca bỏ sót ở #3, rủi ro báo nhầm quanh cụm này và chất lượng giải thích (cùng các sai sót nếu có) trong `responses/` của #4 sẽ được kiểm chứng và phân tích ở Mục 5.
