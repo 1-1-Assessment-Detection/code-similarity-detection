@@ -27,11 +27,44 @@ Nhóm muốn biết nếu chỉ đưa thẳng hai bài cho AI rồi hỏi "có c
 | Dữ liệu | `datasets/week-01/`, commit `8f2e750` |
 | Ngày chạy | 2026-11-27 |
 
-Lúc đầu nhóm định dùng `google/gemma-4-31b-it:free`, nhưng model này bị quá tải (HTTP 429) ngay từ cặp đầu tiên nên chưa có cặp nào chạy xong. Vì vậy nhóm đổi sang nemotron và chạy cả 45 cặp bằng một model duy nhất.
 
 Model AI chính thức của sản phẩm chưa chốt; DeepSeek đang là lựa chọn dự kiến. Khi nhóm chốt, cần chạy lại `v1` bằng đúng model đó. Có như vậy thì kết quả so sánh Phương án B với Phương án C (`v2`, `v3`) ở tuần 7–8 mới công bằng.
 
-Khóa API và tên model đặt trong file `.env.local` ở thư mục gốc repo, xem mẫu ở [`.env.example`](../../../.env.example). File này đã nằm trong `.gitignore`, đừng commit khóa lên.
+Cấu hình đặt trong file `.env.local` ở thư mục gốc repo, xem mẫu ở [`.env.example`](../../../.env.example). File này đã nằm trong `.gitignore`, đừng commit khóa lên.
+
+| Biến | Ý nghĩa |
+| --- | --- |
+| `AI_ENDPOINT` | Địa chỉ API. Để trống thì dùng OpenRouter. Với DeepSeek thì điền `https://api.deepseek.com/chat/completions` |
+| `AI_API_KEY` | Khóa API của dịch vụ đó |
+| `AI_MODEL` | Tên model, ví dụ `nvidia/nemotron-3-ultra-550b-a55b:free` hoặc `deepseek-chat` |
+
+Chương trình dùng được mọi dịch vụ theo chuẩn OpenAI Chat Completions, nên muốn đổi model hay đổi nơi gọi AI chỉ cần sửa `.env.local`, không phải sửa code. Tên biến cũ `OPENROUTER_API_KEY` và `OPENROUTER_MODEL` vẫn dùng được.
+
+### Đổi sang model khác
+
+Dịch vụ nào theo chuẩn OpenAI Chat Completions cũng dùng được. Một số cấu hình thường gặp:
+
+| Muốn dùng | `AI_ENDPOINT` | `AI_MODEL` ví dụ |
+| --- | --- | --- |
+| OpenRouter: một khóa dùng được nhiều model như Claude, GPT, Gemini, DeepSeek, Llama | để trống | `nvidia/nemotron-3-ultra-550b-a55b:free`, `deepseek/deepseek-chat` |
+| DeepSeek gọi trực tiếp | `https://api.deepseek.com/chat/completions` | `deepseek-chat` |
+| OpenAI gọi trực tiếp | `https://api.openai.com/v1/chat/completions` | tên model của OpenAI |
+| Model chạy trên máy bằng Ollama | `http://localhost:11434/v1/chat/completions` | `qwen3`, `llama3` (khóa điền gì cũng được) |
+
+Claude và Gemini không gọi thẳng được vì API riêng của Anthropic và Google có định dạng khác. Muốn dùng thì gọi qua OpenRouter. Hiện nhóm mới chạy thật với OpenRouter; các dòng còn lại lấy theo tài liệu của từng dịch vụ, nên kiểm tra lại tên model trước khi chạy.
+
+Khi đổi model, nhớ:
+
+- **Mỗi model ghi vào một thư mục riêng**, ví dụ:
+
+  ```powershell
+  dotnet run --project experiments/week-01/direct-ai/DirectAiExperiment -- --run --out experiments/week-01/direct-ai/deepseek
+  ```
+
+  Nếu chạy model mới vào thư mục đã có kết quả của model khác, chương trình sẽ dừng để không trộn kết quả.
+- Model loại "suy luận" đôi khi trả lời rỗng vì dùng hết token để nghĩ. Chương trình sẽ hỏi lại các cặp đó ở lần chạy sau.
+- Model nhỏ hay trả lời sai định dạng `KET_LUAN` / `DIEM_GIONG`. Những cặp đó được ghi `khong_parse_duoc` và tính là lỗi của model.
+- Dịch vụ trả phí sẽ tính tiền. Cả 45 cặp tốn khoảng 60 nghìn token, tính theo lần chạy nemotron.
 
 ## Cách chạy
 

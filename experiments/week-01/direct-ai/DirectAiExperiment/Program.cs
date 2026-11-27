@@ -1,4 +1,4 @@
-﻿// Thực nghiệm Tuần 1 (issue #4): hỏi trực tiếp AI cho từng cặp bài nộp, qua OpenRouter Chat Completions.
+﻿// Thực nghiệm Tuần 1 (issue #4): hỏi trực tiếp AI cho từng cặp bài nộp, qua API chuẩn OpenAI Chat Completions (mặc định OpenRouter).
 // Chưa dùng AI Harness, Tool Calling hay Self-check Loop. Chạy từ thư mục gốc repository.
 using System.Diagnostics;
 using System.Globalization;
@@ -8,7 +8,9 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
-const string Endpoint = "https://openrouter.ai/api/v1/chat/completions";
+const string DefaultEndpoint = "https://openrouter.ai/api/v1/chat/completions";
+
+static string? Env(string name) => Environment.GetEnvironmentVariable(name) is { Length: > 0 } v ? v : null;
 
 var options = Options.Parse(args);
 
@@ -86,17 +88,20 @@ if (!options.Run)
 }
 
 DotEnv.Load();
-string? apiKey = Environment.GetEnvironmentVariable("OPENROUTER_API_KEY");
-string? model = Environment.GetEnvironmentVariable("OPENROUTER_MODEL");
-if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(model))
+// Mọi dịch vụ theo chuẩn OpenAI Chat Completions đều dùng được (OpenRouter, DeepSeek...). Tên OPENROUTER_* cũ vẫn được đọc.
+string endpoint = Env("AI_ENDPOINT") ?? DefaultEndpoint;
+string? apiKey = Env("AI_API_KEY") ?? Env("OPENROUTER_API_KEY");
+string? model = Env("AI_MODEL") ?? Env("OPENROUTER_MODEL");
+if (apiKey is null || model is null)
 {
-    Console.Error.WriteLine("Thiếu OPENROUTER_API_KEY hoặc OPENROUTER_MODEL. Điền vào .env.local (xem .env.example) hoặc đặt biến môi trường.");
+    Console.Error.WriteLine("Thiếu AI_API_KEY hoặc AI_MODEL. Điền vào .env.local (xem .env.example) hoặc đặt biến môi trường.");
     return 1;
 }
+Console.WriteLine($"Endpoint: {endpoint}");
 Console.WriteLine($"Model: {model}");
-if (!model.EndsWith(":free", StringComparison.Ordinal))
+if (endpoint.Contains("openrouter.ai", StringComparison.OrdinalIgnoreCase) && !model.EndsWith(":free", StringComparison.Ordinal))
 {
-    Console.Error.WriteLine("Cảnh báo: model không có hậu tố :free, có thể tính phí.");
+    Console.Error.WriteLine("Cảnh báo: model OpenRouter không có hậu tố :free, có thể tính phí.");
 }
 
 string responsesDir = Path.Combine(options.OutDir, "responses");
@@ -115,6 +120,14 @@ foreach (var (id, fileA, fileB) in pairs)
     // Bỏ qua cặp đã có phản hồi để chạy lại không gọi API hai lần.
     if (File.Exists(responsePath))
     {
+        // Không trộn kết quả của hai model trong cùng một thư mục kết quả.
+        string previous = Regex.Match(File.ReadAllText(responsePath), @"^requested_model: (.*)$", RegexOptions.Multiline).Groups[1].Value.Trim();
+        if (previous != model)
+        {
+            Console.Error.WriteLine($"{responsePath} được tạo bằng model {previous}, khác model hiện tại {model}.");
+            Console.Error.WriteLine("Dùng --out <thư mục khác> cho model mới, hoặc đặt lại AI_MODEL như lần chạy trước.");
+            return 1;
+        }
         records.Add(PairRecord.FromFile(id, nameA, nameB, responsePath));
         Console.WriteLine($"{id} {nameA} vs {nameB}: đã có, bỏ qua");
         continue;
@@ -124,7 +137,7 @@ foreach (var (id, fileA, fileB) in pairs)
     var sw = Stopwatch.StartNew();
     try
     {
-        ChatResult result = await OpenRouter.Send(http, Endpoint, model, prompt);
+        ChatResult result = await ChatApi.Send(http, endpoint, model, prompt);
         sw.Stop();
         PairRecord.WriteResponseFile(responsePath, id, model, sw.Elapsed.TotalSeconds, result);
         var record = PairRecord.FromFile(id, nameA, nameB, responsePath);
@@ -296,7 +309,7 @@ sealed class RateLimitException(string message) : Exception(message);
 
 sealed class ApiException(string message) : Exception(message);
 
-static class OpenRouter
+static class ChatApi
 {
     // Mỗi lần gọi là một request độc lập, chỉ gồm một tin nhắn user (không giữ ngữ cảnh).
     public static async Task<ChatResult> Send(HttpClient http, string endpoint, string model, string prompt)
