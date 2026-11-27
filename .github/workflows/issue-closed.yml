@@ -1,0 +1,19 @@
+name: Issue closed
+
+on:
+  issues:
+    types: [closed]
+
+permissions: {}
+
+jobs:
+  record-closure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summarize closed issue
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          CLOSE_REASON: ${{ github.event.issue.state_reason }}
+        run: |
+          printf 'Issue #%s\n\nClose reason: %s\n' \
+            "$ISSUE_NUMBER" "${CLOSE_REASON:-unknown}" >> "$GITHUB_STEP_SUMMARY"

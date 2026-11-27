@@ -86,3 +86,9 @@ Mỗi thực nghiệm nên ghi phiên bản code/phương pháp, cấu hình, t�
 4. Thư mục hiện có `docs/requirments/` là đường dẫn cũ của tài liệu mentor. Khi nhóm quyết định chuyển sang `docs/01-requirements/`, chuyển file bằng một thay đổi riêng và cập nhật mọi liên kết, đặc biệt trong `AGENTS.md` và README này.
 
 Quy tắc làm việc cho AI Agent và quy ước kỹ thuật của nhóm nằm trong [`AGENTS.md`](AGENTS.md). Hướng dẫn cài đặt/chạy dự án sẽ được bổ sung khi backend và frontend thực sự được khởi tạo.
+
+## GitHub Actions
+
+Workflow [`issue-closed.yml`](.github/workflows/issue-closed.yml) chạy khi GitHub phát sự kiện `issues.closed`, gồm đóng thủ công, đóng với lý do "not planned" và Issue được PR merge đóng tự động. Mỗi lần chạy ghi số Issue và lý do đóng vào phần tóm tắt của workflow; hiện chưa có tác vụ nghiệp vụ khác được quy định. Workflow cần có trên nhánh mặc định để nhận sự kiện này.
+
+Thay đổi nhãn, bình luận hoặc chỉ thay đổi trường Status trong GitHub Projects không phải là trigger của workflow. Nếu thao tác chọn Status thực sự đóng Issue, GitHub cũng phát `issues.closed`, nên workflow vẫn chạy cho thao tác đó.
